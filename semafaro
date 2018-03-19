@@ -1,0 +1,59 @@
+#define S1RED 4
+#define S1YELLOW 5
+#define S1GREEN 6
+
+#define S2RED 8
+#define S2YELLOW 9
+#define S2GREEN 10
+
+boolean s1aberto = true;
+boolean s2aberto = true;
+boolean s1fechado = true;
+boolean s2fechado = true;
+boolean s1alerta = true;
+boolean s2alerta = true;
+
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(S1RED,OUTPUT);
+  pinMode(S1YELLOW,OUTPUT);
+  pinMode(S1GREEN,OUTPUT);
+  pinMode(S2RED,OUTPUT);
+  pinMode(S2YELLOW,OUTPUT);
+  pinMode(S2GREEN,OUTPUT);
+  
+  Serial.println("Iniciou o Semafaro");
+  
+  s1aberto = false;
+  
+  
+}
+
+void loop(){ 
+  
+  if(s1aberto){
+    
+    ligaLed(S1GREEN,1);
+    ligaLed(S1YELLOW,0);
+    ligaLed(S1RED,0);
+    
+    ligaLed (S2GREEN,0); 
+    ligaLed(S2YELLOW,0);
+    ligaLed(S2RED,1);
+  }  
+}
+
+void ligaLed(int pinoLed, int onOff){  
+  digitalWrite(pinoLed,onOff);
+}
+
+
+
+
+
+
+
+
+
