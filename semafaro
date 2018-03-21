@@ -83,12 +83,3 @@ void ligaLed(int pinoLed, int onOff){
   digitalWrite(pinoLed,onOff);
   
 }
-
-
-
-
-
-
-
-
-
