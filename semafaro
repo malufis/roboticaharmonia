@@ -13,6 +13,8 @@ boolean s2fechado = true;
 boolean s1alerta = true;
 boolean s2alerta = true;
 
+int count = 0;
+
 
 void setup()
 {
@@ -26,27 +28,60 @@ void setup()
   
   Serial.println("Iniciou o Semafaro");
   
-  s1aberto = false;
+  s1aberto = true;
+  s2aberto = false;
   
   
 }
 
 void loop(){ 
   
-  if(s1aberto){
-    
-    ligaLed(S1GREEN,1);
-    ligaLed(S1YELLOW,0);
-    ligaLed(S1RED,0);
-    
-    ligaLed (S2GREEN,0); 
-    ligaLed(S2YELLOW,0);
-    ligaLed(S2RED,1);
-  }  
+  if(count <= 500){
+    if(s1aberto){
+
+      ligaLed(S1GREEN,HIGH);
+      ligaLed(S1YELLOW,LOW);
+      ligaLed(S1RED,LOW);
+
+      ligaLed (S2GREEN,LOW); 
+      ligaLed(S2YELLOW,LOW);
+      ligaLed(S2RED,HIGH);      
+    }
+    if(count == 500){
+   		s1aberto = false;
+      	s2aberto = true;
+    }
+    count++;
+    delay(1);
+  }
+  Serial.println(count);
+  
+  if(count >= 500){
+    Serial.println("entrou");
+    if(s2aberto){
+
+      ligaLed(S1GREEN,LOW);
+      ligaLed(S1YELLOW,LOW);
+      ligaLed(S1RED,HIGH);
+
+      ligaLed (S2GREEN,HIGH); 
+      ligaLed(S2YELLOW,LOW);
+      ligaLed(S2RED,LOW);      
+    }
+    if(count == 1000){
+   		s1aberto = true;
+      	s2aberto = false;
+      count = 0;
+    }
+    delay(1);
+  }
+  
+  
 }
 
 void ligaLed(int pinoLed, int onOff){  
   digitalWrite(pinoLed,onOff);
+  
 }
 
 
