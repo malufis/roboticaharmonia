@@ -37,19 +37,11 @@ void setup()
 void loop(){ 
   
   if(count <= 500){
-    if(s1aberto){
-
-      ligaLed(S1GREEN,HIGH);
-      ligaLed(S1YELLOW,LOW);
-      ligaLed(S1RED,LOW);
-
-      ligaLed (S2GREEN,LOW); 
-      ligaLed(S2YELLOW,LOW);
-      ligaLed(S2RED,HIGH);      
-    }
+    semafaroEstado1(true);
+    
     if(count == 500){
-   		s1aberto = false;
-      	s2aberto = true;
+       s1aberto = false;
+        s2aberto = true;
     }
     count++;
     delay(1);
@@ -69,8 +61,8 @@ void loop(){
       ligaLed(S2RED,LOW);      
     }
     if(count == 1000){
-   		s1aberto = true;
-      	s2aberto = false;
+      s1aberto = true;
+        s2aberto = false;
       count = 0;
     }
     delay(1);
@@ -80,6 +72,20 @@ void loop(){
 }
 
 void ligaLed(int pinoLed, int onOff){  
-  digitalWrite(pinoLed,onOff);
-  
+  digitalWrite(pinoLed,onOff);  
 }
+
+void semafaroEstado1(boolean aberto){
+
+  if(aberto){
+
+      ligaLed(S1GREEN,HIGH);
+      ligaLed(S1YELLOW,LOW);
+      ligaLed(S1RED,LOW);
+
+      ligaLed (S2GREEN,LOW); 
+      ligaLed(S2YELLOW,LOW);
+      ligaLed(S2RED,HIGH);      
+    }
+  
+ }
