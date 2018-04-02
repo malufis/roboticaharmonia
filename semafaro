@@ -5,155 +5,129 @@
 #define S2RED 8
 #define S2YELLOW 9
 #define S2GREEN 10
-
-boolean s1aberto = true;
-boolean s2aberto = true;
-boolean s1fechado = true;
-boolean s2fechado = true;
-boolean s1alerta = true;
-boolean s2alerta = true;
-
 int count = 0;
-
 
 void setup()
 {
-  Serial.begin(9600);
-  pinMode(S1RED,OUTPUT);
-  pinMode(S1YELLOW,OUTPUT);
-  pinMode(S1GREEN,OUTPUT);
-  pinMode(S2RED,OUTPUT);
-  pinMode(S2YELLOW,OUTPUT);
-  pinMode(S2GREEN,OUTPUT);
-  
-  Serial.println("Iniciou o Semafaro");
-  
-  s1aberto = true;
-  s2aberto = false;
-  
-  
+	Serial.begin(9600);
+	pinMode(S1RED, OUTPUT);
+	pinMode(S1YELLOW, OUTPUT);
+	pinMode(S1GREEN, OUTPUT);
+	pinMode(S2RED, OUTPUT);
+	pinMode(S2YELLOW, OUTPUT);
+	pinMode(S2GREEN, OUTPUT);
+
+	s1verde(false);
+	s1amarelo(false);
+	s1vermelho(false);
+	s2verde(false);
+	s2amarelo(false);
+	s2vermelho(false);
+
+	Serial.println("Iniciou o Semafaro");
 }
 
-void loop(){ 
-  
-  if(count <= 500){
-    semafaroEstado1(true);
-    
-    if(count == 500){
-       s1aberto = false;
-        s2aberto = true;
-    }
-    count++;
-    delay(1);
-  }
-  Serial.println(count);
-  
-  if(count >= 500){
-    Serial.println("entrou");
-    if(s2aberto){
+void loop() {
 
-      ligaLed(S1GREEN,LOW);
-      ligaLed(S1YELLOW,LOW);
-      ligaLed(S1RED,HIGH);
+	if (count <= 400) {
+		s1verde(true);	
+		s2vermelho(true);
+		if (count == 400) {
+			s1verde(false);
+		}
+	}
+	if (count >= 401 && count <= 500) {
+		s1amarelo(true);		
+		if (count == 500) {
+			s1amarelo(false);
+			s2vermelho(false);	
+			s1vermelho(true);
+		}
+	}
 
-      ligaLed (S2GREEN,HIGH); 
-      ligaLed(S2YELLOW,LOW);
-      ligaLed(S2RED,LOW);      
-    }
-    if(count == 1000){
-      s1aberto = true;
-        s2aberto = false;
-      count = 0;
-    }
-    delay(1);
-  }
-  
-  
+	if (count >= 500 && count <= 900) {		
+		s2verde(true);
+		if (count == 900) {
+			s2verde(false);
+		}
+	}
+
+	if (count >= 900 && count <= 1000) {
+		s2amarelo(true);
+		if (count == 900) {			
+			s2verde(false);			
+		}
+		
+	}
+
+	if (count == 1000) {
+		s2amarelo(false);
+		s1verde(true);
+		s2vermelho(false);
+		count = 0;
+	}
+	count++;
+	Serial.println(count);
+	delay(2);
+
+
+
 }
 
-void ligaLed(int pinoLed, int onOff){  
-  digitalWrite(pinoLed,onOff);  
+void ligaLed(int pinoLed, int onOff) {
+	digitalWrite(pinoLed, onOff);
 }
 
-void semafaroEstado1(boolean aberto){
+void s1verde(boolean aberto) {
 
-  if(aberto){
-      ligaLed(S1GREEN,HIGH);
-      ligaLed(S1YELLOW,LOW);
-      ligaLed(S1RED,LOW);
+	if (aberto) {
+		ligaLed(S1GREEN, HIGH);
+	}
+	else {
+		ligaLed(S1GREEN, LOW);
+	}
+}
+void s1amarelo(boolean aberto) {
 
-      ligaLed (S2GREEN,LOW); 
-      ligaLed(S2YELLOW,LOW);
-      ligaLed(S2RED,HIGH);      
-    }  
- }
+	if (aberto) {
+		ligaLed(S1YELLOW, HIGH);		
+	}
+	else {
+		ligaLed(S1YELLOW, LOW);
+	}
+}
+void s1vermelho(boolean aberto) {
+	if (aberto) {
+		ligaLed(S1RED, HIGH);
+	}
+	else {
+		ligaLed(S1RED, LOW);
+	}
+}
 
-void semafaroEstado2(boolean aberto){
+void s2verde(boolean aberto) {
 
-  if(aberto){
-      ligaLed(S1GREEN,LOW);
-      ligaLed(S1YELLOW,LOW);
-      ligaLed(S1RED,HIGH);
+	if (aberto) {
+		ligaLed(S2GREEN, HIGH);
+	}
+	else {
+		ligaLed(S2GREEN, LOW);
+	}
+}
+void s2amarelo(boolean aberto) {
 
-      ligaLed (S2GREEN,HIGH); 
-      ligaLed(S2YELLOW,LOW);
-      ligaLed(S2RED,LOW);      
-    }  
- }
-
- void semafaroEstado2(boolean aberto){
-
-  if(aberto){
-      ligaLed(S1GREEN,LOW);
-      ligaLed(S1YELLOW,LOW);
-      ligaLed(S1RED,HIGH);
-
-      ligaLed (S2GREEN,HIGH); 
-      ligaLed(S2YELLOW,LOW);
-      ligaLed(S2RED,LOW);      
-    }  
- }
-
- void semafaroEstado3(boolean aberto){
-
-  if(aberto){
-      ligaLed(S1GREEN,LOW);
-      ligaLed(S1YELLOW,HIGH);
-      ligaLed(S1RED,LOW);
-
-      ligaLed (S2GREEN,LOW); 
-      ligaLed(S2YELLOW,LOW);
-      ligaLed(S2RED,HIGH);      
-    }  
- }
-
- void semafaroEstado4(boolean aberto){
-
-  if(aberto){
-      ligaLed(S1GREEN,LOW);
-      ligaLed(S1YELLOW,LOW);
-      ligaLed(S1RED,HIGH);
-
-      ligaLed (S2GREEN,LOW); 
-      ligaLed(S2YELLOW,HIGH);
-      ligaLed(S2RED,LOW);      
-    }  
- }
-
-  void semafaroEstado5(boolean aberto){
-
-  if(aberto){
-      ligaLed(S1GREEN,LOW);      
-      ligaLed(S1RED,LOW);
-
-      ligaLed (S2GREEN,LOW);      
-      ligaLed(S2RED,LOW);
-
-      ligaLed(S1YELLOW,LOW);
-      ligaLed(S2YELLOW,HIGH);
-      delay(100);
-      ligaLed(S1YELLOW,HIGH);
-      ligaLed(S2YELLOW,LOW);
-      
-    }  
- }
+	if (aberto) {
+		ligaLed(S2YELLOW, HIGH);
+	}
+	else {
+		ligaLed(S2YELLOW, LOW);
+	}
+}
+void s2vermelho(boolean aberto) {
+	if (aberto) {
+		ligaLed(S2RED, HIGH);
+	}
+	else {
+		ligaLed(S2RED, LOW);
+	}
+}
