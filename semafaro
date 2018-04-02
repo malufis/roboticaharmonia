@@ -17,48 +17,42 @@ void setup()
 	pinMode(S2YELLOW, OUTPUT);
 	pinMode(S2GREEN, OUTPUT);
 
-	s1verde(false);
+	s1verde(true);
 	s1amarelo(false);
 	s1vermelho(false);
 	s2verde(false);
 	s2amarelo(false);
-	s2vermelho(false);
+	s2vermelho(true);
 
 	Serial.println("Iniciou o Semafaro");
 }
 
 void loop() {
 
-	if (count <= 400) {
-		s1verde(true);	
-		s2vermelho(true);
-		if (count == 400) {
-			s1verde(false);
-		}
+	
+	if (count == 400) {
+	  s1verde(false);
+      s1amarelo(true);
 	}
-	if (count >= 401 && count <= 500) {
-		s1amarelo(true);		
+		
 		if (count == 500) {
 			s1amarelo(false);
 			s2vermelho(false);	
 			s1vermelho(true);
+          s2verde(true);
 		}
-	}
-
-	if (count >= 500 && count <= 900) {		
-		s2verde(true);
+		
+		
 		if (count == 900) {
 			s2verde(false);
+          s2amarelo(true);
 		}
-	}
-
-	if (count >= 900 && count <= 1000) {
-		s2amarelo(true);
+	
+		
 		if (count == 900) {			
 			s2verde(false);			
 		}
 		
-	}
 
 	if (count == 1000) {
 		s2amarelo(false);
@@ -68,7 +62,7 @@ void loop() {
 	}
 	count++;
 	Serial.println(count);
-	delay(15);
+	delay(1);
 
 
 
