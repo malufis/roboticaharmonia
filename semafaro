@@ -62,13 +62,13 @@ void loop() {
 
 	if (count == 1000) {
 		s2amarelo(false);
-		s1verde(true);
-		s2vermelho(false);
+		s1vermelho(false);
+		s1verde(true);		
 		count = 0;
 	}
 	count++;
 	Serial.println(count);
-	delay(2);
+	delay(15);
 
 
 
